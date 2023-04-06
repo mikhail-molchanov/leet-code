@@ -92,3 +92,13 @@ export const longestCommonPrefix2 = (strs: string[]): string => {
   // Finally apply common prefix window over initial buffer.
   return buffer.substring(0, length);
 };
+
+/**
+ * Variant 3: clever one (not mine).
+ *
+ * Algorithm:
+ * - Sort array first and then you'll only to find common prefix between the first and the last strings. Profit =)
+ *
+ * I was thinking about sorting array first to somehow speed things up but the idea of
+ * comparing only first and last ones didn't really hit me.
+ */
