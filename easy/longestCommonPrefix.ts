@@ -4,19 +4,16 @@
  */
 
 /**
- * Variant 1: do it the most straightforward way.
+ * Variant 1: do it the most straightforward way, literally compare letters one by one for every string.
  */
 export const longestCommonPrefix1 = (strs: string[]): string => {
   // Final result.
   let result = '';
 
-  // End of iterations;
-  let end = false;
-
   // Position to check in the incoming strings.
   let pos = 0;
 
-  while (!end) {
+  while (true) {
     // Check if at current position all strings have the same character (candidate).
     let candidate = '';
 
@@ -26,9 +23,7 @@ export const longestCommonPrefix1 = (strs: string[]): string => {
 
       // We reached the end of some string, there is no point to continue.
       if (pos >= s.length) {
-        // Indicates the end of algorithm.
-        candidate = '';
-        break;
+        return result;
       }
 
       // Get current character.
@@ -38,21 +33,62 @@ export const longestCommonPrefix1 = (strs: string[]): string => {
       if (i === 0) {
         candidate = c;
       } else if (c !== candidate) {
-        // Some of the string doesn't match the candidate at current position => end of algorithm.
-        candidate = '';
-        break;
+        return result;
       }
     }
 
     // Common character found at current position => add to the result prefix and move to the next position.
-    if (candidate) {
-      pos++;
-      result += candidate;
-    } else {
-      // End of algorithm.
-      end = true;
+    pos++;
+    result += candidate;
+  }
+};
+
+/**
+ * Variant 2
+ *
+ * Algorithm:
+ * - Take first string as a first approximation of common prefix.
+ *   The only tricky thing to realize is that final prefix will
+ *   ALWAYS be a substring of the first approximation.
+ *   So we only need to figure out the length of the final prefix and
+ *   then apply it over first approximation.
+ * - For every other string narrow the "window" down by comparing it with
+ *   current prefix letter by letter unless end of any of them is met.
+ * - On every step the length of the prefix is gonna either stay the same
+ *   or decrease thus requiring less and less further comparisons.
+ */
+export const longestCommonPrefix2 = (strs: string[]): string => {
+  // First approximation. We can use "const" here since buffer itself is not gonna change,
+  // only the prefix window size.
+  const buffer = strs[0];
+
+  // Assume that whole string can potentially be a common prefix.
+  let length = buffer.length;
+
+  // Cycle through the rest of the strings.
+  for (let i = 1; i < strs.length; i++) {
+    // Get the string.
+    const s = strs[i];
+
+    // Common prefix can't be longer than shortest of two strings.
+    // At best they can be equal.
+    length = Math.min(length, s.length);
+
+    // Compare strings letter by letter until they match.
+    let j = 0;
+    while (j < length && s[j] === buffer[j]) {
+      j++;
+    }
+
+    // Adjust the window size (potential prefix length) based on comparison results.
+    length = j;
+
+    // No matches => no common prefix.
+    if (!length) {
+      break;
     }
   }
 
-  return result;
+  // Finally apply common prefix window over initial buffer.
+  return buffer.substring(0, length);
 };
