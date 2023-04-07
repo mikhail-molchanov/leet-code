@@ -6,8 +6,8 @@ describe('longestCommonPrefix', () => {
     [['flower', 'fl', 'flight'], 'fl'],
     [['dog', 'racecar', 'car'], ''],
     [['', 'b'], ''],
-  ])('longest prefix for %p is %p', (roman, int) => {
-    expect(longestCommonPrefix1(roman)).toEqual(int);
-    expect(longestCommonPrefix2(roman)).toEqual(int);
+  ])('longest prefix for %p is %p', (array, prefix) => {
+    expect(longestCommonPrefix1(array)).toEqual(prefix);
+    expect(longestCommonPrefix2(array)).toEqual(prefix);
   });
 });
