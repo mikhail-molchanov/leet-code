@@ -1,6 +1,6 @@
 import { longestCommonPrefix1, longestCommonPrefix2 } from './longestCommonPrefix';
 
-describe('longestCommonPrefix', () => {
+describe('Longest Common Prefix', () => {
   test.each([
     [['flower', 'flow', 'flight'], 'fl'],
     [['flower', 'fl', 'flight'], 'fl'],

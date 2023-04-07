@@ -1,6 +1,6 @@
 import { isPalindrome } from './palindromeNumber';
 
-describe('isPalindrome', () => {
+describe('Palindrome Number', () => {
   test.each([
     [1, true],
     [121, true],

@@ -1,6 +1,6 @@
 import { romanToInt } from './romanToInt';
 
-describe('romanToInt', () => {
+describe('Roman To Integer', () => {
   test.each([
     ['', 0],
     ['I', 1],

@@ -1,6 +1,6 @@
 import { twoSum } from './twoSum';
 
-describe('twoSum', () => {
+describe('Two Sum', () => {
   test.each([
     [[], 5, []],
     [[3, 3], 5, []],
