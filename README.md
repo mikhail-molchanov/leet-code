@@ -8,3 +8,4 @@
 - [Palindrome Number](./easy/palindromeNumber.ts)
 - [Valid Parentheses](./easy/validParentheses.ts)
 - [Merge Two Sorted Lists](./easy/mergeTwoSortedLists.ts)
+- [Length Of Last Word](./easy/lengthOfLastWord.ts.ts)
