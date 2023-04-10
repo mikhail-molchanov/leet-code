@@ -9,3 +9,4 @@
 - [Valid Parentheses](./easy/validParentheses.ts)
 - [Merge Two Sorted Lists](./easy/mergeTwoSortedLists.ts)
 - [Length Of Last Word](./easy/lengthOfLastWord.ts.ts)
+- [Plus One](./easy/plusOne.ts.ts.ts)
