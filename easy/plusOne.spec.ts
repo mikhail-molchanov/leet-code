@@ -1,4 +1,4 @@
-import { plusOne } from './plusOne';
+import { plusOne, plusOne2 } from './plusOne';
 
 /**
  * Problem description;
@@ -21,6 +21,7 @@ describe('Plus One', () => {
       [1, 0, 0, 0],
     ],
   ])('result of plus one for array %p: %p', (input, result) => {
-    expect(plusOne(input)).toEqual(result);
+    expect(plusOne([...input])).toEqual(result);
+    expect(plusOne2([...input])).toEqual(result);
   });
 });
