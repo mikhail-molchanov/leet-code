@@ -1,7 +1,7 @@
 import { plusOne, plusOne2 } from './plusOne';
 
 /**
- * Problem description;
+ * Problem description:
  * https://leetcode.com/problems/plus-one/
  */
 describe('Plus One', () => {

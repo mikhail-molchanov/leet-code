@@ -1,5 +1,5 @@
 /**
- * Problem description;
+ * Problem description:
  * https://leetcode.com/problems/length-of-last-word/
  */
 export function lengthOfLastWord(s: string): number {

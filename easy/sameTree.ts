@@ -1,15 +1,9 @@
 /**
- * Problem description;
+ * Problem description:
  * https://leetcode.com/problems/same-tree/
  */
 
-export class TreeNode {
-  constructor(
-    public val: number = 0,
-    public left: TreeNode | null = null,
-    public right: TreeNode | null = null
-  ) {}
-}
+import { TreeNode } from './utils';
 
 // Algorithm:
 // Compare tree nodes on the same level recursively.

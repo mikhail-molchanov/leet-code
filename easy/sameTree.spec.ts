@@ -1,4 +1,6 @@
-import { TreeNode, isSameTree } from './sameTree';
+import { TreeNode } from './utils';
+
+import { isSameTree } from './sameTree';
 
 describe('Same Tree', () => {
   test.each([
