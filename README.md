@@ -11,3 +11,4 @@
 - [Length Of Last Word](./easy/lengthOfLastWord.ts)
 - [Plus One](./easy/plusOne.ts)
 - [ClimbStairs](./easy/climbStairs.ts)
+- [Same Tree](./easy/sameTree.ts)
