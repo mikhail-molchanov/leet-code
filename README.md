@@ -10,7 +10,7 @@
 - [Merge Two Sorted Lists](./easy/mergeTwoSortedLists.ts)
 - [Length Of Last Word](./easy/lengthOfLastWord.ts)
 - [Plus One](./easy/plusOne.ts)
-- [ClimbStairs](./easy/climbStairs.ts)
+- [Climb Stairs](./easy/climbStairs.ts)
 - [Same Tree](./easy/sameTree.ts)
 - [Symmetric Tree](./easy/symmetricTree.ts)
 - [Max Tree Depth](./easy/maxDepth.ts)
