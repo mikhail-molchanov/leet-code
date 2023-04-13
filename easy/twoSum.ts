@@ -16,7 +16,7 @@ export function twoSum(nums: number[], target: number): number[] {
       return [candidateIndex, i];
     }
 
-    // Story complimentary value in the map.
+    // Store complimentary value in the map.
     candidates.set(target - num, i);
   }
 
