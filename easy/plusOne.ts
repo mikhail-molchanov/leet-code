@@ -1,3 +1,8 @@
+/**
+ * Problem description:
+ * https://leetcode.com/problems/plus-one/
+ */
+
 // Assumption is that operation should be performed IN PLACE.
 // Otherwise (if copy is needed) the algorithm can be a bit more compact.
 
