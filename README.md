@@ -13,3 +13,4 @@
 - [ClimbStairs](./easy/climbStairs.ts)
 - [Same Tree](./easy/sameTree.ts)
 - [Symmetric Tree](./easy/symmetricTree.ts)
+- [Max Tree Depth](./easy/maxDepth.ts)
