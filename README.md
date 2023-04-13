@@ -15,3 +15,4 @@
 - [Symmetric Tree](./easy/symmetricTree.ts)
 - [Max Tree Depth](./easy/maxDepth.ts)
 - [Path Sum](./easy/pathSum.ts)
+- [Min Tree Depth](./easy/minDepth.ts)
