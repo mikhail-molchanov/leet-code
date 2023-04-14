@@ -21,6 +21,7 @@
 
 ## Javascript
 
-### Easy
+### Medium
 
-- [Memoize](./javascript/easy/memoize.ts)
+- [Memoize](./javascript/medium/memoize.ts)
+- [Flatten Deeply Nested Array](./javascript/medium/flattenDeeplyNestedArray.ts)
