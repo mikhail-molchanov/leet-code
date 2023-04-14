@@ -16,7 +16,7 @@ function memoize(fn: Fn): Fn {
       return cache.get(hash);
     }
 
-    const value = fn.apply(null, args);
+    const value = fn.apply(null, args); // or fn(...args)
     cache.set(hash, value);
     return value;
   };

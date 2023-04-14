@@ -19,9 +19,12 @@
 - [Path Sum](./algorithms/easy/pathSum.ts)
 - [Min Tree Depth](./algorithms/easy/minDepth.ts)
 
+### Medium
+
+- [Flatten Deeply Nested Array](./algorithms/medium/flattenDeeplyNestedArray.ts)
+
 ## Javascript
 
 ### Medium
 
 - [Memoize](./javascript/medium/memoize.ts)
-- [Flatten Deeply Nested Array](./javascript/medium/flattenDeeplyNestedArray.ts)
