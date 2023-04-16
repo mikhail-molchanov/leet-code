@@ -3,7 +3,7 @@
  * https://leetcode.com/problems/same-tree/
  */
 
-import { TreeNode } from './utils';
+import { TreeNode } from '../../shared/utils';
 
 // Algorithm:
 // Compare tree nodes on the same level recursively.

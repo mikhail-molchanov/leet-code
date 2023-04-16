@@ -3,7 +3,7 @@
  * https://leetcode.com/problems/path-sum/
  */
 
-import { TreeNode } from './utils';
+import { TreeNode } from '../../shared/utils';
 
 // TODO: Can it be optimized?
 export function hasPathSum(root: TreeNode | null, targetSum: number): boolean {

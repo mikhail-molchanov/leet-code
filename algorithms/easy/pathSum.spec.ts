@@ -1,5 +1,6 @@
+import { treeFromArray } from '../../shared/utils';
+
 import { hasPathSum } from './pathSum';
-import { treeFromArray } from './utils';
 
 describe('Path Sum', () => {
   test.each([

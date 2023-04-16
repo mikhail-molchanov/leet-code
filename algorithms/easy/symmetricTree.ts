@@ -3,7 +3,7 @@
  * https://leetcode.com/problems/symmetric-tree/
  */
 
-import { TreeNode } from './utils';
+import { TreeNode } from '../../shared/utils';
 
 // The algorithm is very similar to "Same Tree". The order of comparison is just reverted.
 export function isSymmetric(root: TreeNode | null): boolean {

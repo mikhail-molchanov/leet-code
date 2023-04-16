@@ -1,5 +1,6 @@
+import { treeFromArray } from '../../shared/utils';
+
 import { isSymmetric } from './symmetricTree';
-import { treeFromArray } from './utils';
 
 describe('Symmetric Tree', () => {
   test.each([

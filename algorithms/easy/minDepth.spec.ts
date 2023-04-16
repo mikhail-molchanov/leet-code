@@ -1,4 +1,4 @@
-import { treeFromArray } from './utils';
+import { treeFromArray } from '../../shared/utils';
 
 import { minDepth, minDepth2 } from './minDepth';
 

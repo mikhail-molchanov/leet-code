@@ -3,7 +3,7 @@
  * https://leetcode.com/problems/minimum-depth-of-binary-tree/
  */
 
-import { TreeNode } from './utils';
+import { TreeNode } from '../../shared/utils';
 
 // Option1: recursive, not optimized.
 export function minDepth(node: TreeNode | null): number {

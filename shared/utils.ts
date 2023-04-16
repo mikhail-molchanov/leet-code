@@ -28,7 +28,7 @@ const treeLevelToArray = (tree: TreeNode | null, result: number[], level: number
     return false;
   }
 
-  // We reached the specified level - add the value to array and go up.
+  // We've reached the specified level - add the value to array and go up.
   if (level === 1) {
     result.push(tree.val);
     return true;
@@ -46,13 +46,21 @@ const treeLevelToArray = (tree: TreeNode | null, result: number[], level: number
 
 // Read the tree from it's level-serialized array representation.
 export const treeFromArray = (array: (number | null)[]): TreeNode | null => {
+  // Root node of resulting tree.
   let result: TreeNode | null = null;
 
-  const queue: TreeNode[] = [];
+  // We're gonna use "array" as input queue where we get elements from the top one by one.
+  // The "array" itself is gonna be modified in the process so we'll need a copy of it.
   const input = [...array];
+
+  // Whenever new value is read from the input we will create a new node.
+  // The "left" and "right" parts of it will not be read immediately (cause they belong to the next level)
+  // Instead the node will be added to the end of the queue that will be processed on the next cycle.
+  const queue: TreeNode[] = [];
 
   while (input.length) {
     if (!result) {
+      // Create root node.
       const value = input.shift();
       if (value) {
         result = new TreeNode(value);

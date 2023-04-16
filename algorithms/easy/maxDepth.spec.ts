@@ -1,4 +1,4 @@
-import { TreeNode } from './utils';
+import { TreeNode } from '../../shared/utils';
 
 import { maxDepth, maxDepth2 } from './maxDepth';
 
