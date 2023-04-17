@@ -23,6 +23,7 @@
 
 - [Flatten Deeply Nested Array](./algorithms/medium/flattenDeeplyNestedArray.ts)
 - [Integer To Roman](./algorithms/medium/intToRoman.ts)
+- [Generate Parentheses](./algorithms/medium/generateParentheses.ts)
 
 ## Javascript
 
