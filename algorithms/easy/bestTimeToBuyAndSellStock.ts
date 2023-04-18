@@ -8,13 +8,13 @@ export function maxProfit(prices: number[]): number {
 
   // Since we don't need exact positions when to buy and when to sell
   // it's enough to just keep the minimum price for all previous steps.
-  let minPrevPrice = -1;
+  let minPrevPrice = prices[0];
 
   for (let i = 1; i < prices.length; i++) {
     const prevPrice = prices[i - 1];
 
     // Adjust min price.
-    if (minPrevPrice < 0 || prevPrice < minPrevPrice) {
+    if (prevPrice < minPrevPrice) {
       minPrevPrice = prevPrice;
     }
 
