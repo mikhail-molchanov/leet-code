@@ -18,6 +18,7 @@
 - [Max Tree Depth](./algorithms/easy/maxDepth.ts)
 - [Path Sum](./algorithms/easy/pathSum.ts)
 - [Min Tree Depth](./algorithms/easy/minDepth.ts)
+- [Balanced Binary Tree](./algorithms/easy/balancedBinaryTree.ts)
 
 ### Medium
 
