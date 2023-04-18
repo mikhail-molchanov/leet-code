@@ -1,38 +1,6 @@
-import { ListNode, mergeTwoLists } from './mergeTwoSortedLists';
+import { ListNode, linkedListFromArray, linkedListToArray } from '../../shared/utils';
 
-// Helper functions to be able to write tests in array notation.
-const linkedListFromArray = (array: number[]): ListNode | null => {
-  if (!array.length) {
-    return null;
-  }
-
-  let head: ListNode | null = null;
-  let node: ListNode | null = null;
-
-  for (let value of array) {
-    const prev = node;
-    node = new ListNode(value);
-
-    if (prev) {
-      prev.next = node;
-    } else {
-      head = node;
-    }
-  }
-
-  return head;
-};
-
-const linkedListToArray = (list: ListNode | null) => {
-  const result: number[] = [];
-
-  while (list) {
-    result.push(list.val);
-    list = list.next;
-  }
-
-  return result;
-};
+import { mergeTwoLists } from './mergeTwoSortedLists';
 
 describe('linked list utils', () => {
   test('converts array from and to linked list', () => {

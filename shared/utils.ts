@@ -1,3 +1,6 @@
+export class ListNode {
+  constructor(public val = 0, public next: ListNode | null = null) {}
+}
 export class TreeNode {
   constructor(
     public val: number = 0,
@@ -85,6 +88,55 @@ export const treeFromArray = (array: (number | null)[]): TreeNode | null => {
         }
       }
     }
+  }
+
+  return result;
+};
+
+export type NonEmptyArray<T> = [T, ...T[]];
+
+// Helper functions to be able to write linked list tests in array notation.
+export const linkedListFromArray = (array: number[], cycleTo = -1): ListNode | null => {
+  if (!array.length) {
+    return null;
+  }
+
+  let head: ListNode | null = null;
+  let node: ListNode | null = null;
+
+  let cycledNode: ListNode | null = null;
+
+  for (let i = 0; i < array.length; i++) {
+    const value = array[i];
+
+    const prev = node;
+    node = new ListNode(value);
+
+    if (prev) {
+      prev.next = node;
+    } else {
+      head = node;
+    }
+
+    if (cycleTo >= 0 && i === cycleTo) {
+      cycledNode = node;
+    }
+  }
+
+  // Make a cycle from tail to element at specified position if needed.
+  if (cycledNode && node) {
+    node.next = cycledNode;
+  }
+
+  return head;
+};
+
+export const linkedListToArray = (list: ListNode | null) => {
+  const result: number[] = [];
+
+  while (list) {
+    result.push(list.val);
+    list = list.next;
   }
 
   return result;

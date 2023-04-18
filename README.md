@@ -20,6 +20,7 @@
 - [Min Tree Depth](./algorithms/easy/minDepth.ts)
 - [Balanced Binary Tree](./algorithms/easy/balancedBinaryTree.ts)
 - [Best Time to Buy and Sell Stock](./algorithms/easy/bestTimeToBuyAndSellStock.ts)
+- [Linked List Cycle](./algorithms/easy/linkedListCycle.ts)
 
 ### Medium
 

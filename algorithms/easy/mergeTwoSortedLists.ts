@@ -3,9 +3,7 @@
  * https://leetcode.com/problems/merge-two-sorted-lists/
  */
 
-export class ListNode {
-  constructor(public val = 0, public next: ListNode | null = null) {}
-}
+import { ListNode } from '../../shared/utils';
 
 /**
  * Algorithm (iterative):
