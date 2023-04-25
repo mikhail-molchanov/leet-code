@@ -22,6 +22,7 @@
 - [Best Time to Buy and Sell Stock](./algorithms/easy/bestTimeToBuyAndSellStock.ts)
 - [Linked List Cycle](./algorithms/easy/linkedListCycle.ts)
 - [Remove Linked List Elements](./algorithms/easy/removeLinkedListElements.ts)
+- [Isomorphic Strings](./algorithms/easy/isomorphicStrings.ts)
 
 ### Medium
 
