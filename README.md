@@ -23,6 +23,7 @@
 - [Linked List Cycle](./algorithms/easy/linkedListCycle.ts)
 - [Remove Linked List Elements](./algorithms/easy/removeLinkedListElements.ts)
 - [Isomorphic Strings](./algorithms/easy/isomorphicStrings.ts)
+- [Reverse Linked List](./algorithms/easy/reverseLinkedList.ts)
 
 ### Medium
 
