@@ -24,6 +24,7 @@
 - [Remove Linked List Elements](./algorithms/easy/removeLinkedListElements.ts)
 - [Isomorphic Strings](./algorithms/easy/isomorphicStrings.ts)
 - [Reverse Linked List](./algorithms/easy/reverseLinkedList.ts)
+- [Ransom Note](./algorithms/easy/ransomNote.ts)
 
 ### Medium
 
