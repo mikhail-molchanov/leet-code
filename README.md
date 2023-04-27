@@ -32,6 +32,7 @@
 - [Integer To Roman](./algorithms/medium/intToRoman.ts)
 - [Generate Parentheses](./algorithms/medium/generateParentheses.ts)
 - [Add Two Numbers](./algorithms/medium/addTwoNumbers.ts)
+- [Longest Substring Without Repeating Characters](./algorithms/medium/longestSubstringWithoutRepeating.ts)
 
 ## Javascript
 
