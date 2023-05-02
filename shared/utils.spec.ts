@@ -1,4 +1,4 @@
-import { TreeNode, treeFromArray, treeToArray } from './utils';
+import { TreeNode, equalDeep, treeFromArray, treeToArray } from './utils';
 
 describe('treeToArray', () => {
   test.each([
@@ -31,5 +31,33 @@ describe('treeFromArray', () => {
     ],
   ])('works correctly for array %p', (array, tree) => {
     expect(treeFromArray(array)).toEqual(tree);
+  });
+});
+
+describe('equalDeep', () => {
+  test.each([
+    [1, 1, true],
+    [0, 1, false],
+    [[], [], true],
+    [[1], 1, false],
+    [1, [1], false],
+    [[1], [1], true],
+    [[1, 2, 3], [3, 2, 1], true],
+    [[1, 2, 3, [2]], [3, [2], 2, 1], true],
+    [[1], [1, 2], false],
+    [[1, 2, 3], [1, 2], false],
+    [
+      [
+        [1, 2, 3],
+        [4, 5],
+      ],
+      [
+        [5, 4],
+        [3, 1, 2],
+      ],
+      true,
+    ],
+  ])('number of arrays deep equality: %p === %p = %p', (obj1, obj2, result) => {
+    expect(equalDeep(obj1, obj2)).toEqual(result);
   });
 });

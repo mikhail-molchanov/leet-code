@@ -3,7 +3,7 @@
  * https://leetcode.com/problems/flatten-deeply-nested-array/
  */
 
-type MultiDimensionalArray = (number | MultiDimensionalArray)[];
+import { MultiDimensionalArray } from '../../shared/utils';
 
 export function flat(arr: MultiDimensionalArray, n: number): MultiDimensionalArray {
   const result: MultiDimensionalArray = [];

@@ -9,6 +9,8 @@ export class TreeNode {
   ) {}
 }
 
+export type MultiDimensionalArray<T = number> = (T | MultiDimensionalArray<T>)[];
+
 // Traverse the tree in level-based order (level by level).
 export const treeToArray = (tree: TreeNode | null): number[] => {
   const result: number[] = [];
@@ -140,4 +142,45 @@ export const linkedListToArray = (list: ListNode | null) => {
   }
 
   return result;
+};
+
+export const equalDeep = (
+  obj1: number | MultiDimensionalArray,
+  obj2: number | MultiDimensionalArray
+) => {
+  if (typeof obj1 === 'number' || typeof obj2 === 'number') {
+    return obj1 === obj2;
+  }
+
+  // Here we know that both arguments are of Array type.
+  // Create a copy of second argument since we're gonna modify it later.
+  obj2 = [...obj2];
+
+  // A shortcut: arrays must be of the same length.
+  if (obj1.length !== obj2.length) {
+    return false;
+  }
+
+  // For every item in "obj1" find a corresponding item in "obj2" using the same "equalDeep" algorithm.
+  // If entry is found then it will be removed from the "obj2" and next item from "obj1" will be considered.
+  // If in the end "obj2" is empty then arrays are equal.
+  for (const item1 of obj1) {
+    let match = false;
+
+    for (let j = 0; j < obj2.length; j++) {
+      const item2 = obj2[j];
+      if (equalDeep(item1, item2)) {
+        // Remove item at position "j".
+        obj2 = obj2.filter((value, index) => index !== j);
+        match = true;
+        break;
+      }
+    }
+
+    if (!match) {
+      return false;
+    }
+  }
+
+  return obj2.length === 0;
 };
