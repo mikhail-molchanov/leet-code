@@ -145,10 +145,10 @@ export const linkedListToArray = (list: ListNode | null) => {
 };
 
 export const equalDeep = (
-  obj1: number | MultiDimensionalArray,
-  obj2: number | MultiDimensionalArray
+  obj1: number | string | MultiDimensionalArray<number | string>,
+  obj2: number | string | MultiDimensionalArray<number | string>
 ) => {
-  if (typeof obj1 === 'number' || typeof obj2 === 'number') {
+  if (!Array.isArray(obj1) || !Array.isArray(obj2)) {
     return obj1 === obj2;
   }
 

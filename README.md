@@ -35,6 +35,7 @@
 - [Longest Substring Without Repeating Characters](./algorithms/medium/longestSubstringWithoutRepeating.ts)
 - [Combination Sum II](./algorithms/medium/combinationSum2.ts)
 - [Maximum Sub-Array](./algorithms/medium/maximumSubArray.ts)
+- [Letter Combinations of a Phone Number](./algorithms/medium/letterCombinationOfPhoneNumber.ts)
 
 ## Javascript
 
