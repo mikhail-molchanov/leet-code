@@ -36,6 +36,7 @@
 - [Combination Sum II](./algorithms/medium/combinationSum2.ts)
 - [Maximum Sub-Array](./algorithms/medium/maximumSubArray.ts)
 - [Letter Combinations of a Phone Number](./algorithms/medium/letterCombinationOfPhoneNumber.ts)
+- [Count and Say](./algorithms/medium/countAndSay.ts)
 
 ## Javascript
 
