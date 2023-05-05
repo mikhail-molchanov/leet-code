@@ -38,6 +38,7 @@
 - [Letter Combinations of a Phone Number](./algorithms/medium/letterCombinationOfPhoneNumber.ts)
 - [Count and Say](./algorithms/medium/countAndSay.ts)
 - [Rotate Image](./algorithms/medium/rotateImage.ts)
+- [Group Anagrams](./algorithms/medium/groupAnagrams.ts)
 
 ## Javascript
 
