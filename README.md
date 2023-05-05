@@ -39,6 +39,7 @@
 - [Count and Say](./algorithms/medium/countAndSay.ts)
 - [Rotate Image](./algorithms/medium/rotateImage.ts)
 - [Group Anagrams](./algorithms/medium/groupAnagrams.ts)
+- [Spiral Matrix](./algorithms/medium/spiralMatrix.ts)
 
 ## Javascript
 

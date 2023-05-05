@@ -184,3 +184,9 @@ export const equalDeep = (
 
   return obj2.length === 0;
 };
+
+export const create2DArray = (x: number, y: number) =>
+  new Array(x).fill(null).map(v => new Array(y));
+
+export const create2DArrayFrom = (source: number[][]) =>
+  create2DArray(source.length, source[0].length);
