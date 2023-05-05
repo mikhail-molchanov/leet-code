@@ -20,21 +20,21 @@ export function spiralOrder(matrix: number[][]): number[] {
   const result: number[] = [];
 
   // Max amount of steps available along Y axis.
-  let maxYSteps = matrix.length;
+  let maxStepsY = matrix.length;
   // Max amount of steps available along X axis.
-  let maxXSteps = matrix[0].length;
+  let maxStepsX = matrix[0].length;
 
   // Starting position.
   let [y, x] = [0, 0];
 
   // Starting direction: move 1 step at a time along X axis.
-  let [yStep, xStep]: Direction = [0, 1];
+  let [stepY, stepX]: Direction = [0, 1];
 
   // Max amount of steps along current axis.
-  let maxSteps = maxXSteps;
+  let maxSteps = maxStepsX;
 
   // Since we're moving along X axis => number of steps along Y axis after next direction change should be reduced by 1.
-  maxYSteps--;
+  maxStepsY--;
 
   // Move until there are available steps in current direction.
   while (maxSteps) {
@@ -47,21 +47,21 @@ export function spiralOrder(matrix: number[][]): number[] {
     // No more steps left along current axis => Need to change direction.
     if (!maxSteps) {
       // Change direction 90 clockwise.
-      [yStep, xStep] = changeDirection([yStep, xStep]);
+      [stepY, stepX] = changeDirection([stepY, stepX]);
 
       // Depending on new direction (horz vs vert) adjust number of available steps along opposite axis.
-      if (yStep === 0) {
-        maxSteps = maxXSteps;
-        maxYSteps--;
+      if (stepY === 0) {
+        maxSteps = maxStepsX;
+        maxStepsY--;
       } else {
-        maxSteps = maxYSteps;
-        maxXSteps--;
+        maxSteps = maxStepsY;
+        maxStepsX--;
       }
     }
 
     // Change position according to new direction.
     // If "maxSteps" here is 0 after direction change then the loop will be terminated.
-    [y, x] = [y + yStep, x + xStep];
+    [y, x] = [y + stepY, x + stepX];
   }
 
   return result;
