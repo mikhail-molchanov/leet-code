@@ -1,4 +1,4 @@
-import { canJump } from './jumpGame';
+import { canJump, canJump2 } from './jumpGame';
 
 describe('Jump Game', () => {
   test.each([
@@ -11,5 +11,6 @@ describe('Jump Game', () => {
     [[10, 0, 0, 0, 3, 0, 0, 5, 0, 0, 0, 0], true],
   ])('can reach end index of %p: %p', (array, result) => {
     expect(canJump(array)).toEqual(result);
+    expect(canJump2(array)).toEqual(result);
   });
 });
