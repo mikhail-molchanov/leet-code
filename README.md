@@ -40,6 +40,7 @@
 - [Rotate Image](./algorithms/medium/rotateImage.ts)
 - [Group Anagrams](./algorithms/medium/groupAnagrams.ts)
 - [Spiral Matrix](./algorithms/medium/spiralMatrix.ts)
+- [Jump Game](./algorithms/medium/jumpGame.ts)
 
 ## Javascript
 
