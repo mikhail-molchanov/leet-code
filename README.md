@@ -41,6 +41,7 @@
 - [Group Anagrams](./algorithms/medium/groupAnagrams.ts)
 - [Spiral Matrix](./algorithms/medium/spiralMatrix.ts)
 - [Jump Game](./algorithms/medium/jumpGame.ts)
+- [Merge Intervals](./algorithms/medium/mergeIntervals.ts)
 
 ## Javascript
 
