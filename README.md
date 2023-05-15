@@ -42,6 +42,7 @@
 - [Spiral Matrix](./algorithms/medium/spiralMatrix.ts)
 - [Jump Game](./algorithms/medium/jumpGame.ts)
 - [Merge Intervals](./algorithms/medium/mergeIntervals.ts)
+- [Unique Paths](./algorithms/medium/uniquePaths.ts)
 
 ## Javascript
 
