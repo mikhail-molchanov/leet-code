@@ -43,6 +43,7 @@
 - [Jump Game](./algorithms/medium/jumpGame.ts)
 - [Merge Intervals](./algorithms/medium/mergeIntervals.ts)
 - [Unique Paths](./algorithms/medium/uniquePaths.ts)
+- [Restore IP Addresses](./algorithms/medium/restoreIp.spec.ts)
 
 ## Javascript
 
