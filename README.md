@@ -44,6 +44,7 @@
 - [Merge Intervals](./algorithms/medium/mergeIntervals.ts)
 - [Unique Paths](./algorithms/medium/uniquePaths.ts)
 - [Restore IP Addresses](./algorithms/medium/restoreIp.spec.ts)
+- [Validate Binary Search Tree](./algorithms/medium/validateBst.ts)
 
 ## Javascript
 
