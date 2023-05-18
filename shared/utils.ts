@@ -12,8 +12,8 @@ export class TreeNode {
 export type MultiDimensionalArray<T = number> = (T | MultiDimensionalArray<T>)[];
 
 // Traverse the tree in level-based order (level by level).
-export const treeToArray = (tree: TreeNode | null): number[] => {
-  const result: number[] = [];
+export const treeToArray = (tree: TreeNode | null): (number | null)[] => {
+  const result: (number | null)[] = [];
   let level = 1;
 
   // Serialize the tree level by level (each time we need to go from the root to specified level,
@@ -22,20 +22,38 @@ export const treeToArray = (tree: TreeNode | null): number[] => {
   // However it can be done along with serializing the tree:
   // if at some level there were no elements added to the resulting array then we can stop.
   while (treeLevelToArray(tree, result, level)) {
+    console.log('going next level: ', level);
     level++;
+  }
+
+  // We need to trim trailing nulls.
+  while (result[result.length - 1] === null) {
+    result.splice(result.length - 1);
   }
 
   return result;
 };
 
-const treeLevelToArray = (tree: TreeNode | null, result: number[], level: number): boolean => {
+const treeLevelToArray = (
+  tree: TreeNode | null,
+  result: (number | null)[],
+  level: number
+): boolean => {
   if (!tree) {
+    if (level === 1) {
+      console.log('need to add NULL: ', level);
+      result.push(null);
+    }
     return false;
   }
 
+  console.log('traversing node: ', tree);
+
   // We've reached the specified level - add the value to array and go up.
   if (level === 1) {
+    console.log('adding node to result: ', tree);
     result.push(tree.val);
+    console.log('result: ', result);
     return true;
   }
 

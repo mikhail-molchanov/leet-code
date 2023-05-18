@@ -10,7 +10,7 @@ describe('treeToArray', () => {
         new TreeNode(21, new TreeNode(31)),
         new TreeNode(22, new TreeNode(33), new TreeNode(34))
       ),
-      [1, 21, 22, 31, 33, 34],
+      [1, 21, 22, 31, null, 33, 34],
     ],
   ])('array representation of tree %p is %p', (tree, array) => {
     expect(treeToArray(tree)).toEqual(array);
