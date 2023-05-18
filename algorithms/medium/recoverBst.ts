@@ -6,7 +6,7 @@
 import { TreeNode } from '../../shared/utils';
 
 // Intuition:
-// - There is a way to traverse BST so that the path forms sorted sequence.
+// - There is a way to traverse BST so that the path forms sorted sequence (inorder).
 // - So basically we can consider this task as identifying 2 swapped elements of sorted list.
 //
 // Steps:
@@ -14,53 +14,74 @@ import { TreeNode } from '../../shared/utils';
 // - Identify nodes that were swapped, they will be defects in the sequence.
 // - Swapping node values in place.
 export function recoverTree(root: TreeNode | null): void {
-  const iterator = traverse(root);
-
-  let { value, done } = iterator.next();
-
-  let stop = false;
-  let prev: TreeNode | undefined = undefined;
-
-  let defects: TreeNode[] = [];
-
-  while (value && !done && !stop) {
-    console.log('yielded value: ', value);
-    if (prev && prev.val > value?.val) {
-      console.log('prev, current: ', prev, value);
-      // We have a defect in the sequence.
-      console.log('defect detected: ', prev.val, value.val);
-
-      if (defects.length) {
-        defects = [defects[0], value];
-      } else {
-        defects = [prev, value];
-      }
-    }
-
-    prev = value;
-    ({ value, done } = iterator.next());
-  }
+  const defects = findDefects(root);
 
   if (defects.length) {
-    const sortedDefects = [...defects].sort((a, b) => a.val - b.val);
-    console.log('defects: ', defects);
-    console.log('sorted defects: ', sortedDefects);
-
-    for (let i = 0; i < defects.length; i++) {
-      const x = defects[i];
-      const y = sortedDefects[i];
-
-      if (x.val !== y.val) {
-        swapInPlace(x, y);
-        return;
-      }
-    }
-
-    console.log('after recover: ', defects);
+    const [x, y] = defects;
+    const temp = x.val;
+    x.val = y.val;
+    y.val = temp;
   }
 }
 
-// Good example for using generators. Each call of this function should return next element in the sequence.
+// Find exactly two nodes that form defects in the sorted sequence.
+function findDefects(root: TreeNode | null) {
+  let result: TreeNode[] = [];
+
+  // Traverse the tree in order.
+  const iterator = traverse(root);
+  let { value, done } = iterator.next();
+
+  // This flag is set when we're sure that boh defects are detected.
+  let stop = false;
+
+  // We need to maintain previously visited value on each step.
+  let prev: TreeNode | undefined = undefined;
+
+  // This is an optimization that allows to identify defects that appear next to each other.
+  // If we already have pair of defect candidates and on some step we see
+  // that current value from the tree is greater that both candidates it means that
+  // there will be no mode candidates going further. This is a side-effect of task description.
+  // Give it a thought, might not kick in immediately.
+  let maxDefect = Number.MAX_SAFE_INTEGER;
+
+  // Visit each tree node in ascending order.
+  while (value && !done && !stop) {
+    // If a pair of prev/current value are not sorted => they both are potential defect candidates.
+    if (prev && prev.val > value.val) {
+      // Remember max value of defect candidates.
+      maxDefect = Math.max(prev.val, value.val);
+
+      // If we already have another pair of candidates, then defects are
+      // first one from the first pair and second one from second pair.
+      // Again, this fact might not be obvious from the first glance.
+      if (result.length) {
+        result = [result[0], value];
+        stop = true;
+      } else {
+        // If it's a first occurrence of misformed nodes => mark them as candidates.
+        result = [prev, value];
+      }
+    }
+
+    // Remember previous value and move to the next node.
+    prev = value;
+    ({ value, done } = iterator.next());
+
+    // Optimization: if next value is greater than max of defect candidates => they are real defects.
+    // We're not gonna see any more defects going further since otherwise current pair of defects could
+    // not be resolved by swapping exactly 2 nodes.
+    if (value && maxDefect < value.val) {
+      stop = true;
+    }
+  }
+
+  return result;
+}
+
+// In order BST traversal.
+// Each call of this function should return next element in the sequence.
+// Good case for using generators.
 function* traverse(node: TreeNode | null): Generator<TreeNode, undefined> {
   if (!node) {
     return;
@@ -77,12 +98,4 @@ function* traverse(node: TreeNode | null): Generator<TreeNode, undefined> {
   if (right) {
     yield* traverse(right);
   }
-}
-
-function swapInPlace(x: TreeNode, y: TreeNode) {
-  console.log('swapping: ', x, y);
-
-  const temp = x.val;
-  x.val = y.val;
-  y.val = temp;
 }

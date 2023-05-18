@@ -22,7 +22,6 @@ export const treeToArray = (tree: TreeNode | null): (number | null)[] => {
   // However it can be done along with serializing the tree:
   // if at some level there were no elements added to the resulting array then we can stop.
   while (treeLevelToArray(tree, result, level)) {
-    console.log('going next level: ', level);
     level++;
   }
 
@@ -41,19 +40,14 @@ const treeLevelToArray = (
 ): boolean => {
   if (!tree) {
     if (level === 1) {
-      console.log('need to add NULL: ', level);
       result.push(null);
     }
     return false;
   }
 
-  console.log('traversing node: ', tree);
-
   // We've reached the specified level - add the value to array and go up.
   if (level === 1) {
-    console.log('adding node to result: ', tree);
     result.push(tree.val);
-    console.log('result: ', result);
     return true;
   }
 
