@@ -47,6 +47,10 @@
 - [Validate Binary Search Tree](./algorithms/medium/validateBst.ts)
 - [Recover Binary Search Tree](./algorithms/medium/recoverBst.ts)
 
+### Hard
+
+- [Longest Valid Parentheses](./algorithms/hard/longestValidParentheses.ts)
+
 ## Javascript
 
 ### Medium
