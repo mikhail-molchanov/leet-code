@@ -50,6 +50,7 @@
 ### Hard
 
 - [Longest Valid Parentheses](./algorithms/hard/longestValidParentheses.ts)
+- [Sudoku Solver](./algorithms/hard/sudokuSolver.ts)
 
 ## Javascript
 
