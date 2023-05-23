@@ -14,114 +14,228 @@
 // 5. How to maintain rolling back operation? How to speed things up?
 // 6. On every step start from the cell with minimum number of numbers in candidates.
 export function solveSudoku(board: string[][]): void {
-  const rowNumbers: number[][] = [];
-  const columnNumbers: number[][] = [];
-  const squareNumbers: number[][][] = [];
+  const temp = initialize(board);
+  solve(temp);
+
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      board[i][j] = temp[i][j] as string;
+    }
+  }
+}
+
+const initialize = (board: string[][]): (string | string[])[][] => {
+  const rowNumbers: string[][] = [];
+  const columnNumbers: string[][] = [];
+  const squareNumbers: string[][][] = [];
 
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       const item = board[i][j];
+
+      const squareI = Math.floor(i / 3);
+      const squareJ = Math.floor(j / 3);
+
+      if (!squareNumbers[squareI]) {
+        squareNumbers[squareI] = [];
+      }
+
+      if (!squareNumbers[squareI][squareJ]) {
+        squareNumbers[squareI][squareJ] = [];
+      }
+
       if (item !== '.') {
-        const num = parseInt(item);
         if (!rowNumbers[i]) {
           rowNumbers[i] = [];
         }
 
-        rowNumbers[i].push(num);
+        rowNumbers[i].push(item);
 
         if (!columnNumbers[j]) {
           columnNumbers[j] = [];
         }
 
-        columnNumbers[j].push(num);
+        columnNumbers[j].push(item);
 
-        const squareI = Math.floor(i / 3);
-        const squareJ = Math.floor(j / 3);
-
-        if (!squareNumbers[squareI]) {
-          squareNumbers[squareI] = [];
-        }
-
-        if (!squareNumbers[squareI][squareJ]) {
-          squareNumbers[squareI][squareJ] = [];
-        }
-
-        squareNumbers[squareI][squareJ].push(num);
+        squareNumbers[squareI][squareJ].push(item);
       }
     }
   }
 
-  const result: (number | Set<number>)[][] = new Array(9).fill(0).map(v => new Array(9));
+  const temp: (string | string[])[][] = new Array(9).fill(0).map(v => new Array(9));
 
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       const item = board[i][j];
       if (item === '.') {
-        const candidates = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9]);
-        rowNumbers[i].forEach(item => candidates.delete(item));
-        columnNumbers[j].forEach(item => candidates.delete(item));
+        let candidates = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+        rowNumbers[i].forEach(item => (candidates = candidates.filter(v => v !== item)));
+        columnNumbers[j].forEach(item => (candidates = candidates.filter(v => v !== item)));
+
         const squareI = Math.floor(i / 3);
         const squareJ = Math.floor(j / 3);
-        squareNumbers[squareI][squareJ].forEach(item => candidates.delete(item));
-        result[i][j] = candidates;
+
+        squareNumbers[squareI][squareJ].forEach(
+          item => (candidates = candidates.filter(v => v !== item))
+        );
+        temp[i][j] = candidates;
       } else {
-        result[i][j] = parseInt(item);
+        temp[i][j] = item;
       }
     }
   }
 
-  const iterate = () => {
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        const item = result[i][j];
-        if (typeof item !== 'number') {
-          if (item.size === 1) {
-            item.forEach(value => (result[i][j] = value));
-            const num = result[i][j] as number;
+  return temp;
+};
 
-            for (let a = 0; a < 9; a++) {
-              const item = result[i][a];
-              if (typeof item != 'number') {
-                item.delete(num);
-              }
-            }
-
-            for (let a = 0; a < 9; a++) {
-              const item = result[a][j];
-              if (typeof item != 'number') {
-                item.delete(num);
-              }
-            }
-
-            const squareI = Math.floor(i / 3);
-            const squareJ = Math.floor(j / 3);
-
-            for (let x = 0; x < 3; x++) {
-              for (let y = 0; y < 3; y++) {
-                const item = result[squareI * 3 + x][squareJ * 3 + y];
-                if (typeof item !== 'number') {
-                  item.delete(num);
-                }
-              }
-            }
-
-            return false;
-          }
-        }
-      }
-    }
-
-    return true;
-  };
-
+const solve = (board: (string | string[])[][]): boolean => {
   let iteration = 1;
-  while (!iterate() && iteration < 1000) {
-    iteration++;
+  const copy = cloneBoard(board);
+
+  // console.log('solving: ', copy);
+
+  try {
+    while (iterate(copy) && iteration < 100) {
+      // console.log('iteration N: ', iteration);
+      iteration++;
+    }
+  } catch (e) {
+    return false;
   }
 
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
-      board[i][j] = (result[i][j] as number).toString();
+      board[i][j] = copy[i][j];
     }
   }
-}
+
+  // console.log(board);
+
+  return true;
+};
+
+const iterate = (board: (string | string[])[][]) => {
+  let minUnresolved = 10;
+  let minUnresolvedLocation: [number, number] | undefined;
+
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      const item = board[i][j];
+      if (typeof item !== 'string') {
+        if (item.length < minUnresolved) {
+          minUnresolved = item.length;
+          minUnresolvedLocation = [i, j];
+        }
+      }
+    }
+  }
+
+  if (minUnresolvedLocation) {
+    // console.log('minUnresolvedLocation: ', minUnresolvedLocation);
+    if (!solveAt(board, minUnresolvedLocation)) {
+      throw new Error('Bla');
+    }
+    return true;
+  }
+
+  return false;
+};
+
+const solveAt = (board: (string | string[])[][], location: [number, number]): boolean => {
+  const [x, y] = location;
+  const item = board[x][y];
+
+  // console.log('solve at: ', item, x, y);
+
+  if (typeof item === 'string') {
+    return true;
+  }
+
+  const [value] = item;
+  if (item.length === 1) {
+    return tryCandidate(board, location, value);
+  } else {
+    let candidates = item;
+    for (let candidate of candidates) {
+      const copy = cloneBoard(board);
+      if (tryCandidate(copy, location, candidate) && solve(copy)) {
+        // console.log('resolved sub-path');
+
+        for (let i = 0; i < 9; i++) {
+          for (let j = 0; j < 9; j++) {
+            board[i][j] = copy[i][j];
+          }
+        }
+        return true;
+      } else {
+        //console.error('sub-path is invalid: ', candidate, x, y);
+      }
+    }
+  }
+
+  return false;
+};
+
+const cloneBoard = (board: (string | string[])[][]) => {
+  return JSON.parse(JSON.stringify(board)) as (string | string[])[][];
+};
+
+const tryCandidate = (
+  board: (string | string[])[][],
+  location: [number, number],
+  value: string
+) => {
+  const deleteFromArray = (array: string | string[]) => {
+    if (typeof array === 'string') {
+      return true;
+    }
+
+    const index = array.indexOf(value);
+    if (index !== -1) {
+      array.splice(index, 1);
+    }
+
+    return array.length > 0;
+  };
+
+  const copy = cloneBoard(board);
+
+  const [x, y] = location;
+  copy[x][y] = value;
+
+  // console.log('try candidate: ', value, location);
+
+  for (let a = 0; a < 9; a++) {
+    if (!deleteFromArray(copy[x][a])) {
+      return false;
+    }
+  }
+
+  for (let a = 0; a < 9; a++) {
+    if (!deleteFromArray(copy[a][y])) {
+      return false;
+    }
+  }
+
+  const squareI = Math.floor(x / 3);
+  const squareJ = Math.floor(y / 3);
+
+  for (let x = 0; x < 3; x++) {
+    for (let y = 0; y < 3; y++) {
+      if (!deleteFromArray(copy[squareI * 3 + x][squareJ * 3 + y])) {
+        return false;
+      }
+    }
+  }
+
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      board[i][j] = copy[i][j];
+    }
+  }
+
+  // console.log('board after try candidate: ', board);
+
+  return true;
+};
