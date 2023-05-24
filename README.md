@@ -51,6 +51,7 @@
 
 - [Longest Valid Parentheses](./algorithms/hard/longestValidParentheses.ts)
 - [Sudoku Solver](./algorithms/hard/sudokuSolver.ts)
+- [Trapping Rain Water](./algorithms/hard/trappingRainWater.ts)
 
 ## Javascript
 
