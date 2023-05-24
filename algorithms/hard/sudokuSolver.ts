@@ -8,234 +8,185 @@
  */
 // Intuition:
 // 1. Go through the board and fill the matrix where each cell has potential set of numbers (candidates).
-// 2. Maintain a list of unsolved cells, once the list is empty => problem is solved.
+// 2. Optimization: maintain a list of unsolved cells, once the list is empty => problem is solved.
 // 3. If on any step some cell can't be filled => the path was wrong
 // 4. On each step if some digit can't be used in particular cell => remove it from the potential set.
-// 5. How to maintain rolling back operation? How to speed things up?
-// 6. On every step start from the cell with minimum number of numbers in candidates.
+// 5. On every step start from the cell with minimum number of numbers in candidates.
 export function solveSudoku(board: string[][]): void {
-  const temp = initialize(board);
-  solve(temp);
+  // Given initial set of numbers fill in potential candidates for every empty cell.
+  initialize(board);
 
-  for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) {
-      board[i][j] = temp[i][j] as string;
-    }
-  }
+  // Solve the board.
+  solve(board);
 }
 
-const initialize = (board: string[][]): (string | string[])[][] => {
-  const rowNumbers: string[][] = [];
-  const columnNumbers: string[][] = [];
-  const squareNumbers: string[][][] = [];
+const removeDigits = (source: string, digits: string) =>
+  new Array(digits).forEach(digit => source.replace(digit, ''));
+
+// Given initial set of numbers fill in potential candidates for every empty cell.
+// Done in 2 passes:
+// - Collect already used numbers for each row, column and square.
+// - Use this information to fill in available numbers for empty cells.
+const initialize = (board: string[][]) => {
+  const rows: string[] = new Array(9).fill('');
+  const columns: string[] = new Array(9).fill('');
+  const squares: string[][] = new Array(3).fill(null).map(v => new Array(3).fill(''));
 
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       const item = board[i][j];
 
-      const squareI = Math.floor(i / 3);
-      const squareJ = Math.floor(j / 3);
-
-      if (!squareNumbers[squareI]) {
-        squareNumbers[squareI] = [];
-      }
-
-      if (!squareNumbers[squareI][squareJ]) {
-        squareNumbers[squareI][squareJ] = [];
-      }
-
       if (item !== '.') {
-        if (!rowNumbers[i]) {
-          rowNumbers[i] = [];
-        }
-
-        rowNumbers[i].push(item);
-
-        if (!columnNumbers[j]) {
-          columnNumbers[j] = [];
-        }
-
-        columnNumbers[j].push(item);
-
-        squareNumbers[squareI][squareJ].push(item);
+        rows[i] += item;
+        columns[j] += item;
+        squares[Math.floor(i / 3)][Math.floor(j / 3)] += item;
       }
     }
   }
-
-  const temp: (string | string[])[][] = new Array(9).fill(0).map(v => new Array(9));
 
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       const item = board[i][j];
       if (item === '.') {
-        let candidates = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
-
-        rowNumbers[i].forEach(item => (candidates = candidates.filter(v => v !== item)));
-        columnNumbers[j].forEach(item => (candidates = candidates.filter(v => v !== item)));
-
-        const squareI = Math.floor(i / 3);
-        const squareJ = Math.floor(j / 3);
-
-        squareNumbers[squareI][squareJ].forEach(
-          item => (candidates = candidates.filter(v => v !== item))
-        );
-        temp[i][j] = candidates;
-      } else {
-        temp[i][j] = item;
+        const alreadyUsed = rows[i] + columns[j] + squares[Math.floor(i / 3)][Math.floor(j / 3)];
+        new Array(...'123456789').forEach(digit => {
+          if (!alreadyUsed.includes(digit)) {
+            board[i][j] += digit;
+          }
+        });
       }
     }
   }
-
-  return temp;
 };
 
-const solve = (board: (string | string[])[][]): boolean => {
+const solve = (board: string[][]): boolean => {
+  // Just for the case let's have an emergence condition to not stuck in the endless loop.
   let iteration = 1;
-  const copy = cloneBoard(board);
-
-  // console.log('solving: ', copy);
 
   try {
-    while (iterate(copy) && iteration < 100) {
-      // console.log('iteration N: ', iteration);
+    while (iterate(board) && iteration < 1000) {
       iteration++;
     }
   } catch (e) {
     return false;
   }
 
-  for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) {
-      board[i][j] = copy[i][j];
-    }
-  }
-
-  // console.log(board);
-
   return true;
 };
 
-const iterate = (board: (string | string[])[][]) => {
-  let minUnresolved = 10;
-  let minUnresolvedLocation: [number, number] | undefined;
+// 1. Find cell with minimum number of potential candidates (ideally one candidate).
+// 2. Try to use first available candidate (update corresponding row, column and square).
+// 3. If there is more than once candidate => use first one and solve the new board recursively.
+const iterate = (board: string[][]) => {
+  let min = 9;
+  let cell: [number, number] | undefined;
 
-  for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) {
+  for (let i = 0; i < 9 && min !== 1; i++) {
+    for (let j = 0; j < 9 && min !== 1; j++) {
       const item = board[i][j];
-      if (typeof item !== 'string') {
-        if (item.length < minUnresolved) {
-          minUnresolved = item.length;
-          minUnresolvedLocation = [i, j];
+      if (item[0] === '.') {
+        const num = item.length - 1;
+        if (num < min) {
+          min = num;
+          cell = [i, j];
         }
       }
     }
   }
 
-  if (minUnresolvedLocation) {
-    // console.log('minUnresolvedLocation: ', minUnresolvedLocation);
-    if (!solveAt(board, minUnresolvedLocation)) {
-      throw new Error('Bla');
+  if (cell) {
+    // Try to solve the board by using found cell.
+    if (!solveAt(board, cell)) {
+      throw new Error('Could not solve the board');
     }
+
     return true;
   }
 
+  // If the is no more cells with candidates => iterations are finished.
   return false;
 };
 
-const solveAt = (board: (string | string[])[][], location: [number, number]): boolean => {
-  const [x, y] = location;
+// Depending on number of candidates available in specified "cell" we should:
+// - For single candidate case => try to use it and see whether the board can be update according to the new value
+// - For multiple candidates case => repeat same steps as for single case and then try to solve the updated board recursively.
+const solveAt = (board: string[][], cell: [number, number]): boolean => {
+  const [x, y] = cell;
   const item = board[x][y];
 
-  // console.log('solve at: ', item, x, y);
-
-  if (typeof item === 'string') {
+  // Just for the case. Cell is already solved.
+  if (item[0] !== '.') {
     return true;
   }
 
-  const [value] = item;
-  if (item.length === 1) {
-    return tryCandidate(board, location, value);
-  } else {
-    let candidates = item;
-    for (let candidate of candidates) {
-      const copy = cloneBoard(board);
-      if (tryCandidate(copy, location, candidate) && solve(copy)) {
-        // console.log('resolved sub-path');
+  const candidates = item.slice(1);
 
-        for (let i = 0; i < 9; i++) {
-          for (let j = 0; j < 9; j++) {
-            board[i][j] = copy[i][j];
-          }
+  // For single candidates there is no need to solve the board recursively.
+  if (candidates.length === 1) {
+    return tryCandidate(board, cell, candidates[0]);
+  }
+
+  for (let candidate of candidates) {
+    // We need to preserve current board state when doing recursive iterations since all the changes are done in place
+    // and some candidate path might be wrong.
+    const copy = cloneBoard(board);
+    if (tryCandidate(copy, cell, candidate) && solve(copy)) {
+      // Apply the solved board back to current one.
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          board[i][j] = copy[i][j];
         }
-        return true;
-      } else {
-        //console.error('sub-path is invalid: ', candidate, x, y);
       }
+      return true;
+    } else {
+      //.error('sub-path is invalid: ', candidate, x, y);
     }
   }
 
   return false;
 };
 
-const cloneBoard = (board: (string | string[])[][]) => {
-  return JSON.parse(JSON.stringify(board)) as (string | string[])[][];
+const cloneBoard = (board: string[][]) => {
+  return JSON.parse(JSON.stringify(board)) as string[][];
 };
 
-const tryCandidate = (
-  board: (string | string[])[][],
-  location: [number, number],
-  value: string
-) => {
-  const deleteFromArray = (array: string | string[]) => {
-    if (typeof array === 'string') {
+// Place candidate into specified cell and remove it from corresponding row, column and square.
+// If at some point some cell becomes "empty" it means that candidate can't be used to solve the puzzle.
+const tryCandidate = (board: string[][], cell: [number, number], candidate: string) => {
+  const removeCandidate = (cell: [number, number]) => {
+    const [x, y] = cell;
+    const candidates = board[x][y];
+
+    if (candidates[0] != '.') {
       return true;
     }
 
-    const index = array.indexOf(value);
-    if (index !== -1) {
-      array.splice(index, 1);
-    }
-
-    return array.length > 0;
+    board[x][y] = candidates.replace(candidate, '');
+    return candidates.length > 1;
   };
 
-  const copy = cloneBoard(board);
+  const [x, y] = cell;
+  board[x][y] = candidate;
 
-  const [x, y] = location;
-  copy[x][y] = value;
-
-  // console.log('try candidate: ', value, location);
-
-  for (let a = 0; a < 9; a++) {
-    if (!deleteFromArray(copy[x][a])) {
+  for (let i = 0; i < 9; i++) {
+    if (!removeCandidate([x, i])) {
       return false;
     }
   }
 
-  for (let a = 0; a < 9; a++) {
-    if (!deleteFromArray(copy[a][y])) {
+  for (let i = 0; i < 9; i++) {
+    if (!removeCandidate([i, y])) {
       return false;
     }
   }
 
-  const squareI = Math.floor(x / 3);
-  const squareJ = Math.floor(y / 3);
-
-  for (let x = 0; x < 3; x++) {
-    for (let y = 0; y < 3; y++) {
-      if (!deleteFromArray(copy[squareI * 3 + x][squareJ * 3 + y])) {
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      if (!removeCandidate([Math.floor(x / 3) * 3 + i, Math.floor(y / 3) * 3 + j])) {
         return false;
       }
     }
   }
-
-  for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) {
-      board[i][j] = copy[i][j];
-    }
-  }
-
-  // console.log('board after try candidate: ', board);
 
   return true;
 };
