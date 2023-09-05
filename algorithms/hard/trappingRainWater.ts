@@ -80,10 +80,10 @@ export function trap(height: number[]): number {
 }
 
 // OK, so after thinking for like an hour I guess I figured something out:
-// - Going row by row as in the previous approach is very inefficient. Image an input of [10000, 0, 10000].
+// - Going row by row as in the previous approach is very inefficient. Imagine an input of [10000, 0, 10000].
 //   In order to get to the answer we'll have to iterate 10000 times. There must be something more elegant.
 // - Let's go by columns instead of rows.
-// - Now the tricky thing, it's really needs to be visualized but anyway:
+// - Now the tricky part, it's really needed to be visualized but anyway:
 //   - Go from left to right and for every index calculate current maximum value.
 //   - Go from right to left and do the same.
 //   - Now we have 2 lists with maximums in both directions (they will be different, draw a sample graph and you'll get it).
