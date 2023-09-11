@@ -25,6 +25,7 @@
 - [Isomorphic Strings](./algorithms/easy/isomorphicStrings.ts)
 - [Reverse Linked List](./algorithms/easy/reverseLinkedList.ts)
 - [Ransom Note](./algorithms/easy/ransomNote.ts)
+- [Binary Tree In-Order Traversal](./algorithms/easy/binaryTreeInOrderTraversal.ts)
 
 ### Medium
 
