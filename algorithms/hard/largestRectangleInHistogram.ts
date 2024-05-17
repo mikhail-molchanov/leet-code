@@ -8,24 +8,35 @@
 // The more distinct values in the arrays, the more this algorithm suffers.
 export function largestRectangleArea(heights: number[]): number {
   // get sorted distinct heights
-  const distinctHeights: Set<number> = new Set([...heights].sort());
+  const distinctHeights: Set<number> = new Set([...heights].sort((a, b) => a - b));
 
   let maxArea = 0;
 
+  let left = 0;
+  let right = heights.length - 1;
+
   distinctHeights.forEach(height => {
-    const line = heights.map(h => (h >= height ? 1 : 0));
+    let firstPositive = -1;
+    let lastPositive = 0;
 
     let max = 0;
     let current = 0;
 
-    // Get length of longest sequence of 1s.
-    for (let i = 0; i < line.length; i++) {
-      let val = line[i];
+    for (let i = left; i <= right; i++) {
+      // Get length of longest sequence of 1s.
+      const val = heights[i] >= height;
+
       if (val) {
         current++;
+
+        if (firstPositive === -1) {
+          firstPositive = i;
+        }
+
+        lastPositive = i;
       }
 
-      if (!val || i === line.length - 1) {
+      if (!val || i === right) {
         if (current > max) {
           max = current;
         }
@@ -34,7 +45,12 @@ export function largestRectangleArea(heights: number[]): number {
       }
     }
 
+    left = firstPositive;
+    right = lastPositive;
+
     const area = max * height;
+
+    // console.log(`height: ${height} area: ${area}`);
 
     if (area > maxArea) {
       maxArea = area;
